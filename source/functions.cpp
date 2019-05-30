@@ -6,18 +6,19 @@ int abs_val(int x) {
 }
 
 int pow(int base, int num) {
-  int ret = 1;
-  for (int i = 0; i < num; ++i) {
-    ret *= base;
-  }
-  return ret;
+    if (num == 0){ return 1; }
+    if (num == 1) { return base; }
+    return pow(base, num - 1) * base;
 }
 
 int log(int base, int num) {
-  int count = 0;
-  for (num; num > 1; num /= base)
-    ++count;
-  return count;
+    if (num==1){
+        return 0;
+    }
+    else{
+        num /= base; // make new num
+        return 1 + log(base, num); // 1 is always lowest
+    }
 }
 
 int chartoint(char c) {
@@ -81,19 +82,16 @@ int min(int arr[], int n) {
 }
 
 bool all(bool arr[], int n) {
-  for (int i = 0; i < n; ++i) {
-    if (!arr[i])
-      return false;
-  }
-  return true;
+    if (n==0) { return false; }
+    else if (n==1) { return arr[0]; }
+    else {
+        return arr[0] && all(arr+1, n-1);
+    }
 }
 
 bool any(bool arr[], int n) {
-  for (int i = 0; i < n; ++i) {
-    if (arr[i])
-      return true;
-  }
-  return false;
+    if (n==0) { return false; }
+    return arr[0] || any(arr+1, n-1);
 }
 
 int frequency(int arr[], int n, int x) {
@@ -106,10 +104,7 @@ int frequency(int arr[], int n, int x) {
 }
 
 long sum(int arr[], int n) {
-  long sum = 0;
-  for (int i = 0; i < n; ++i)
-    sum += arr[i];
-  return sum;
+    return (n==0) ? 0 : sum(arr, n-1) + arr[n-1];
 }
 
 int index(char str[], char substr[]) {
